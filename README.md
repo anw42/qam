@@ -1,4 +1,4 @@
-# QR Asset Manager (QAM)
+<center># QR Asset Manager (QAM)</center>
 
 ### Example QR codes:
 <br>
