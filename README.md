@@ -1,5 +1,5 @@
-<center># QR Asset Manager (QAM)</center>
-
+# QR Asset Manager (QAM)
+<br>
 ### Example QR codes:
 <br>
 <img align="left" width="200" height="200" src="https://anw42.github.io/qam/examples/e79bb6b3-c1a3-4972-a72f-a7e0f15def77.png">
