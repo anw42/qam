@@ -9,6 +9,6 @@
 <p align="center">a31a395e-0606-4f3e-8405-9723ed4ebd5f</p>
 
 
-<img align="right" width="100" height="100" src="http://www.fillmurray.com/100/100">
+<img align="left" width="100" height="100" src="http://www.fillmurray.com/100/100">
 
-This is the code you need to align images to the right:
+This is the code you need to align images to the left:
