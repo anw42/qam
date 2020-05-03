@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>QR Asset Manager</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+	<script defer src="https://scanmap.cf/src/lib/instascan.min.js"></script>
+	<link rel="icon" type="image/png" href="favicon.png">		
+</head>
+<body>
+
+<div id="container">
+	<div id="nav">
+
+		<div id="brand">
+			<i class="large gem outline icon"></i>
+			<span id="brand-text">QR Asset Manager4</span>
+		</div>
+
+		<button id="switch" class="large ui teal icon button">
+			<i class="sync alternate icon"></i>
+		</button>
+
+		<button id="scan" class="large ui green icon button">
+			<i class="expand icon"></i>
+		</button>
+		
+		<button id="stop" class="large ui red icon button">
+			<i class="ban icon"></i>
+		</button>
+		
+		<button id="logout" class="large ui yellow icon button">
+			<i class="sign-out icon"></i>
+		</button>
+		
+	</div>
+	
+	<div id="content">
+        
+		<form id="login-form" class="ui form">
+			
+			<div class="centerer">
+				<h3 id="form-title" class="ui dividing header">Please log in</h3>
+			</div>
+
+			<div class="field">
+				<label>TOPdesk URL</label>
+				<div class="ui icon input">
+					<input type="text" id="url" value="https://hungary.topdesk.net" placeholder="e.g. https://myinstance.topdesk.net">
+					<i class="linkify icon"></i>
+				</div>
+			</div>
+			
+			<div class="field">
+				<label>Username</label>
+				<div class="ui icon input">
+					<input type="text" id="username" placeholder="username...">
+					<i class="user icon"></i>
+				</div>
+			</div>
+
+			<div class="field">
+				<label>Application password</label>
+				<div class="ui icon input">
+					<input type="password" id="password" placeholder="API password...">
+					<i class="key icon"></i>
+				</div>
+			</div>
+
+			<div class="centerer">
+				<button id="login-submit" class="ui linkedin right labeled icon button">
+					<i class="right arrow icon"></i>
+					Log in
+				</button>
+			</div>
+		</form>
+		
+		<div id="error-box" class="ui negative message">
+			<div id="error-message" class="header">
+	  			
+			</div>	
+		</div>
+		
+		<div id="welcome" class="ui piled segment">
+			<h3 class="ui header">Welcome to the QR Asset Manager!</h3>
+			<br>
+			<p>Use the top menu buttons to:</p>
+			<p><i class="expand icon"></i> - Start scanning</p>
+			<p><i class="ban icon"></i> - Stop the camera/scanning</p>
+			<p><i class="sync alternate icon"></i> - Switch cameras (not working yet)</p>
+			<p><i class="sign-out icon"></i> - Log out</p>
+		</div>
+        
+        	<div id="camera-frame">
+			<video id="preview"></video>
+		</div>
+
+		<div id="asset-data">
+			<div class="centerer">
+				<h3 id="form-title" class="ui dividing header">Asset details</h3>
+			</div>
+			<form class="ui form">
+				<div class="field">
+	  				<label>UNID</label>
+	  				<input type="text" id="asset-unid">
+				</div>
+				<div class="field">
+	  				<label>Asset ID</label>
+	  				<input type="text" id="asset-id">
+				</div>
+				<div class="field">
+					<label>Specification</label>
+					<input type="text" id="specification">
+	 			</div>
+ 			</form>
+		</div>
+
+		<div id="loading-asset" class="ui segment">
+  			<div class="ui active inverted dimmer">
+    				<div class="ui large text loader">Retrieving asset info...</div>
+  			</div>
+  			<p></p>
+  			<p></p>
+			<p></p>
+		</div>
+
+	</div>	
+	
+</div>
+
+<script type="text/javascript" src="app.js"></script>
+
+</body>
+</html>
