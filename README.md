@@ -1,1 +1,1 @@
-# qam
+# QR Asset Manager (QAM)
