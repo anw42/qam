@@ -1,0 +1,89 @@
+#container {
+	width:100%;
+	max-width: 960px;
+	margin: 0px auto;
+}
+
+#nav {
+	background-color: #fafafa;
+	border-bottom: 4px solid #eaeaea;
+	position: relative;
+	padding: 24px 20px;
+}
+
+#brand {
+	font-weight: bold;
+	font-size: 16px;
+}
+
+#switch, #scan, #stop, #logout {
+	position: absolute;
+	top: 15px;
+	margin-right: 0px;
+	display: none;
+}
+
+#switch {right: 134px;}
+#scan {right: 74px;}
+#stop {right: 74px;}
+#logout{right: 15px;}
+
+@media (max-width: 380px) {
+	#brand {font-size: 14px;}
+	#switch {right: 125px;}
+	#scan {right: 68px;}
+	#stop {right: 68px;}
+	#logout{right: 12px;}
+}
+
+#content {
+   padding: 40px 20px;
+}
+
+.centerer {
+	text-align: center;
+}
+
+#form-title {
+	margin-bottom: 40px;
+}
+
+#login-submit {
+	margin-top: 15px;
+}
+
+#camera-frame {
+	width:100%;
+	max-width: 920px;
+	margin: 0px auto;
+	text-align: center;
+	display: none;
+
+}
+
+#preview {
+	max-width: 920px;
+}
+
+@media (max-width: 920px) {
+	#preview {
+		max-width: calc(100vw - 120px);
+	}
+}
+
+#loading-asset {
+	display: none;
+}
+
+#error-box {
+	display: none;
+	margin-top: 2em;
+}
+
+#welcome {
+	display: none;
+}
+	
+#asset-data {
+	display: none;
+}
