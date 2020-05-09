@@ -140,7 +140,7 @@ function stopCam(scanner) {
 	ui.welcome.style.display="block";
 
 	Instascan.Camera.getCameras()
-		.then(cameras => {scanner.stop(cameras[cameras.length-1])
+		.then(cameras => {scanner().stop(cameras[cameras.length-1])
 		.then(console.log('Camera stopped.'));
 		})
 		.catch(error => {
