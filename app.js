@@ -47,7 +47,7 @@
 	}
 	
 	const tryLogin = () => {
-		console.log(baseUrl);
+		console.log(options);
 		loginButton.classList.add('loading');
 		
 		fetch(baseUrl + '/version', options)
