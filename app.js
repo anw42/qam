@@ -12,7 +12,7 @@
 	logoutButton.addEventListener('click', () => {window.location.reload(false);});
 	
 	var loginButton = document.getElementById('login-submit');
-	loginButton.addEventListener('click', (e) => {tryLogin(e);});
+	loginButton.addEventListener('click', event => loginClicked(event));
 
 	var errorBox = document.getElementById('error-box');
 	var errorMessage = document.getElementById('error-message');
@@ -21,28 +21,35 @@
 	
 	var selCam;
 
-	const baseUrl = () => document.getElementById('url').value + '/tas/api';
+	let baseUrl = '';
+	let options = {};
 	
-	const getOptions = () => {
+	const getLoginData = () => {
+		baseUrl = document.getElementById('url').value + '/tas/api';
+		
 		const username = document.getElementById('username').value;
 		const password = document.getElementById('password').value;
 		const auth = 'Basic ' + btoa(username + ':' + password);
 		
-		const options = {
-			method: 'GET',
-			headers: JSON.stringify({
-				['Content-Type']: 'application/json',
-				['Authorization']: auth
-			})
-		} 
-		return options;	
+		options.method = 'GET';
+		options.headers = JSON.stringify({
+			['Content-Type']: 'application/json',
+			['Authorization']: auth
+		});
+		
+		return true;
 	};
 	
-	const tryLogin = (e) => {
-		e.preventDefault();
+	const loginClicked = (event) => {
+		event.preventDefault();
+		getLoginData();
+		tryLogin();
+	}
+	
+	const tryLogin = () => {
 		loginButton.classList.add('loading');
 		
-		fetch(baseUrl() + '/version', getOptions())
+		fetch(baseUrl + '/version', options)
 			.then(res => {
 				loginButton.classList.remove('loading');
 			
