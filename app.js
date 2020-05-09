@@ -32,10 +32,10 @@
 		const auth = 'Basic ' + btoa(username + ':' + password);
 		
 		options.method = 'GET';
-		options.headers = JSON.stringify({
+		options.headers = { JSON.stringify(
 			['Content-Type']: 'application/json',
 			['Authorization']: auth
-		});
+		)};
 		
 		return true;
 	};
