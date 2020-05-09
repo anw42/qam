@@ -107,9 +107,10 @@ function startCam() {
 
 	var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: mirror });
 	scanner.addListener('scan', content => {
-		ui.cameraFrame.style.display="none";
+		//ui.cameraFrame.style.display="none";
+		//document.getElementById('loading-asset').style.display="block";
 		getAsset(content);
-		document.getElementById('loading-asset').style.display="block";
+		
 	});
 
 	Instascan.Camera.getCameras()
@@ -150,17 +151,11 @@ function stopCam(scanner) {
 }
 
 
-	const getAsset = (content) => {
-		stopCam(selCam);
-		welcome.style.display="none";
-		
-		fetch(url + '/assetmgmt/assets/' + content, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': auth
-			}
-		})
+const getAsset = (content) => {
+	stopCam(selCam);
+	welcome.style.display="none";
+	
+	fetch(baseUrl + '/assetmgmt/assets/' + content, options)
 			.then(res => {
 				document.getElementById('loading-asset').style.display="none";
 			
@@ -169,16 +164,16 @@ function stopCam(scanner) {
 					return res.json();
 				}
 				else if (res.status === 401) {
-					errorBox.style.display="block";
-					errorMessage.textContent = 'Unauthorized. (401)';
+					ui.errorBox.style.display="block";
+					ui.errorMessage.textContent = 'Unauthorized. (401)';
 				}
 				else if (res.status === 404) {
-					errorBox.style.display="block";
-					errorMessage.innerHTML = "The QR scan was successful, however the below data is not a valid asset unid:<br><br><br>" + content;
+					ui.errorBox.style.display="block";
+					ui.errorMessage.innerHTML = "The QR scan was successful, however the below data is not a valid asset unid:<br><br><br>" + content;
 				}
 				else {
-					errorBox.style.display="block";
-					errorMessage.textContent = 'Other error.';
+					ui.errorBox.style.display="block";
+					ui.errorMessage.textContent = 'Other error.';
 				}
 			})
 			.then(res => {
@@ -194,8 +189,8 @@ function stopCam(scanner) {
 				}
 			})
     			.catch(error => {
-				errorBox.style.display="block";
-				errorMessage.textContent = 'Could not connect to the TOPdesk server.';
+				ui.errorBox.style.display="block";
+				ui.errorMessage.textContent = 'Could not connect to the TOPdesk server.';
 				document.getElementById('loading-asset').style.display="none";
 				console.log('Getting the asset info failed.');
 			})
