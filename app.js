@@ -14,7 +14,7 @@ const ui = {
 
 ui.loginButton.addEventListener('click', e => loginClicked(e));
 ui.scanButton.addEventListener('click', () => {startCam();});	
-ui.stopButton.addEventListener('click', () => {stopCam(startCam);});
+ui.stopButton.addEventListener('click', () => {stopCam();});
 ui.switchButton.addEventListener('click', () => {manageCam(false);});
 ui.logoutButton.addEventListener('click', () => {window.location.reload(false);});
 
@@ -132,7 +132,7 @@ const startCam = () => {
 	return scanner;
 }
 		
-function stopCam(scanner) {
+function stopCam() {
 
 	ui.switchButton.style.display="none";
 	ui.stopButton.style.display="none";
@@ -140,7 +140,7 @@ function stopCam(scanner) {
 	ui.welcome.style.display="block";
 
 	Instascan.Camera.getCameras()
-		.then(cameras => {scanner().stop(cameras[cameras.length-1])
+		.then(cameras => {startCam().stop(cameras[cameras.length-1])
 		.then(console.log('Camera stopped.'));
 		})
 		.catch(error => {
