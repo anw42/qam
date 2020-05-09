@@ -18,7 +18,7 @@
 	ui.switchButton.addEventListener('click', () => {manageCam(false);});
 	ui.logoutButton.addEventListener('click', () => {window.location.reload(false);});
 	
-	const handleUI = (state) => {
+	const handleUI = (state, errorMsg) => {
 		switch(state) {
 			case 'login-loading':
 				ui.loginButton.classList.add('loading');
@@ -43,6 +43,11 @@
 				break;
 			case 'if-more-cams':
 				ui.switchButton.style.display="inline-flex";
+				break;
+			case 'fetch-failed':
+				ui.errorBox.style.display="block";
+				ui.errorMessage.textContent = errorMsg;
+				//ui.loginButton.classList.remove('loading');
 				break;
 			default:
 				return false;
@@ -77,7 +82,15 @@
 	}
 	
 	const fetchError = (res) => {
-	console.log(res);
+		if (res) {
+			if(res.status === 401) { const errorMsg = 'Unauthorized or wrong username/password (401)'; }
+			else if(res.status === 404) { const errorMsg = 'Not found / Wrong URL (404)'; }
+			else { const errorMsg = 'Login faied - ' + res.status}
+		}
+		else {
+			const errorMsg = 'Could not connect to the server (err_name_not_resolved)'; 
+		}
+		return handleUI('fetch-failed', errorMsg);
 	};
 	
 	const tryLogin = () => {
@@ -86,7 +99,7 @@
 		fetch(baseUrl + '/version', options)
 			.then(res => {
 				handleUI('login-response');
-				if (!res.ok) { fetchError(res) }
+				if (!res.ok) { fetchError(res); }
 				else { return res.json(); }
 			})
 			.then(res => {
@@ -98,12 +111,7 @@
 					console.log('Login failed!!!');
 				}
 			})
-    			.catch(error => {
-				ui.errorBox.style.display="block";
-				ui.errorMessage.textContent = 'Could not connect to the TOPdesk server. (err_name_not_resolved)';
-				ui.loginButton.classList.remove('loading');
-				console.log('Login failed.');
-			})
+    		.catch(error => fetchError)
 	}
 
 	const getAsset = (content) => {
