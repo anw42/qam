@@ -1,14 +1,14 @@
 	const ui = {
-		loginButton  : document.getElementById('login-submit');
-		scanButton   : document.getElementById('scan');
-		stopButton   : document.getElementById('stop');
-		switchButton : document.getElementById('switch');
-		logoutButton : document.getElementById('logout');
-		loginForm    : document.getElementById('login-form');
-		errorBox     : document.getElementById('error-box');
-		errorMessage : document.getElementById('error-message');
-		cameraFrame  : document.getElementById('camera-frame');
-		welcome      : document.getElementById('welcome');
+		loginButton  : document.getElementById('login-submit'),
+		scanButton   : document.getElementById('scan'),
+		stopButton   : document.getElementById('stop'),
+		switchButton : document.getElementById('switch'),
+		logoutButton : document.getElementById('logout'),
+		loginForm    : document.getElementById('login-form'),
+		errorBox     : document.getElementById('error-box'),
+		errorMessage : document.getElementById('error-message'),
+		cameraFrame  : document.getElementById('camera-frame'),
+		welcome      : document.getElementById('welcome')
 	};	
 
 	ui.loginButton.addEventListener('click', event => loginClicked(event));
