@@ -1,4 +1,6 @@
-
+	var loginButton = document.getElementById('login-submit');
+	loginButton.addEventListener('click', event => loginClicked(event));
+	
 	var scanButton = document.getElementById('scan');
 	scanButton.addEventListener('click', () => {manageCam(true);});
 		
@@ -10,15 +12,30 @@
 
 	var logoutButton = document.getElementById('logout');
 	logoutButton.addEventListener('click', () => {window.location.reload(false);});
-	
-	var loginButton = document.getElementById('login-submit');
-	loginButton.addEventListener('click', event => loginClicked(event));
 
 	var errorBox = document.getElementById('error-box');
 	var errorMessage = document.getElementById('error-message');
 	var cameraFrame = document.getElementById('camera-frame');
 	var welcome = document.getElementById('welcome');
+	const loginForm = document.getElementById('login-form');
 	
+	const handleUI = (state) => {
+		switch(state) {
+			case 'login-loading':
+				loginButton.classList.add('loading');
+				break;
+			case 'logged-in':
+				loginForm.style.display="none";
+				scanButton.style.display="inline-flex";
+				logoutButton.style.display="inline-flex";
+				cameraFrame.style.display="block";
+				welcome.style.display="block";
+				break;
+			default:
+				return false;
+		}
+	};
+
 	var selCam;
 
 	let baseUrl = '';
@@ -47,8 +64,7 @@
 	}
 	
 	const tryLogin = () => {
-		console.log(options);
-		loginButton.classList.add('loading');
+		handleUI('login-loading');
 		
 		fetch(baseUrl + '/version', options)
 			.then(res => {
@@ -74,7 +90,7 @@
 			.then(res => {
 				if (res) {
 					console.log('Login successful. API version: ' + res.version);
-					loggedIn();
+					handleUI('logged-in');
 				}
 				else {
 					console.log('Login failed!!!');
@@ -88,14 +104,6 @@
 			})
 	}
 
-	const loggedIn = () => {
-		document.getElementById('login-form').style.display="none";
-		scanButton.style.display="inline-flex";
-		logoutButton.style.display="inline-flex";
-		cameraFrame.style.display="block";
-		welcome.style.display="block";
-	}	
-	
 	const getAsset = (content) => {
 		stopCam(selCam);
 		welcome.style.display="none";
