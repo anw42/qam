@@ -76,19 +76,18 @@
 		tryLogin();
 	}
 	
+	const fetchError (res) => {
+	console.log(res);
+	};
+	
 	const tryLogin = () => {
 		handleUI('login-loading');
 		
 		fetch(baseUrl + '/version', options)
 			.then(res => {
 				handleUI('login-response');
-			
-				if (res.status === 200) {
-					return res.json();
-				}
-				else {
-					console.log(res);
-				}
+				if (!res.ok) { fetchError(res) }
+				else { return res.json(); }
 			})
 			.then(res => {
 				if (res) {
