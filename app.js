@@ -12,7 +12,7 @@
 	logoutButton.addEventListener('click', () => {window.location.reload(false);});
 	
 	var loginButton = document.getElementById('login-submit');
-	loginButton.addEventListener('click', (event) => {getCredentials(event);});
+	loginButton.addEventListener('click', (event) => {tryLogin(event);});
 
 	var errorBox = document.getElementById('error-box');
 	var errorMessage = document.getElementById('error-message');
