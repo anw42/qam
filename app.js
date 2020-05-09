@@ -12,7 +12,7 @@
 	logoutButton.addEventListener('click', () => {window.location.reload(false);});
 	
 	var loginButton = document.getElementById('login-submit');
-	loginButton.addEventListener('click', (event) => {tryLogin(event);});
+	loginButton.addEventListener('click', (e) => {tryLogin(e);});
 
 	var errorBox = document.getElementById('error-box');
 	var errorMessage = document.getElementById('error-message');
@@ -38,8 +38,8 @@
 		return options;	
 	};
 	
-	const tryLogin = (baseUrl, getOptions) => {
-		event.preventDefault();
+	const tryLogin = (e) => {
+		e.preventDefault();
 		loginButton.classList.add('loading');
 		
 		fetch(baseUrl + '/version', getOptions)
