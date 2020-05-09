@@ -77,7 +77,7 @@
 					loggedIn();
 				}
 				else {
-					console.log('Login failed.');
+					console.log('Login failed!!!');
 				}
 			})
     			.catch(error => {
