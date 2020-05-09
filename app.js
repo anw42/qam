@@ -76,7 +76,7 @@
 		tryLogin();
 	}
 	
-	const fetchError (res) => {
+	const fetchError = (res) => {
 	console.log(res);
 	};
 	
