@@ -1,35 +1,33 @@
-	var loginButton = document.getElementById('login-submit');
-	loginButton.addEventListener('click', event => loginClicked(event));
-	
-	var scanButton = document.getElementById('scan');
-	scanButton.addEventListener('click', () => {manageCam(true);});
-		
-	var stopButton = document.getElementById('stop');
-	stopButton.addEventListener('click', () => {manageCam(false);});
-	
-	var switchButton = document.getElementById('switch');
-	switchButton.addEventListener('click', () => {manageCam(false);});
+	const ui = {
+		loginButton  : document.getElementById('login-submit');
+		scanButton   : document.getElementById('scan');
+		stopButton   : document.getElementById('stop');
+		switchButton : document.getElementById('switch');
+		logoutButton : document.getElementById('logout');
+		loginForm    : document.getElementById('login-form');
+		errorBox     : document.getElementById('error-box');
+		errorMessage : document.getElementById('error-message');
+		cameraFrame  : document.getElementById('camera-frame');
+		welcome      : document.getElementById('welcome');
+	};	
 
-	var logoutButton = document.getElementById('logout');
-	logoutButton.addEventListener('click', () => {window.location.reload(false);});
-
-	var errorBox = document.getElementById('error-box');
-	var errorMessage = document.getElementById('error-message');
-	var cameraFrame = document.getElementById('camera-frame');
-	var welcome = document.getElementById('welcome');
-	const loginForm = document.getElementById('login-form');
+	ui.loginButton.addEventListener('click', event => loginClicked(event));
+	ui.scanButton.addEventListener('click', () => {manageCam(true);});	
+	ui.stopButton.addEventListener('click', () => {manageCam(false);});
+	ui.switchButton.addEventListener('click', () => {manageCam(false);});
+	ui.logoutButton.addEventListener('click', () => {window.location.reload(false);});
 	
 	const handleUI = (state) => {
 		switch(state) {
 			case 'login-loading':
-				loginButton.classList.add('loading');
+				ui.loginButton.classList.add('loading');
 				break;
 			case 'logged-in':
-				loginForm.style.display="none";
-				scanButton.style.display="inline-flex";
-				logoutButton.style.display="inline-flex";
-				cameraFrame.style.display="block";
-				welcome.style.display="block";
+				ui.loginForm.style.display="none";
+				ui.scanButton.style.display="inline-flex";
+				ui.logoutButton.style.display="inline-flex";
+				ui.cameraFrame.style.display="block";
+				ui.welcome.style.display="block";
 				break;
 			default:
 				return false;
