@@ -66,7 +66,7 @@
 		
 		fetch(baseUrl + '/version', options)
 			.then(res => {
-				loginButton.classList.remove('loading');
+				ui.loginButton.classList.remove('loading');
 			
 				if (res.status === 200) {
 					//console.log('success');
