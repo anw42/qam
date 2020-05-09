@@ -23,9 +23,6 @@
 			case 'login-loading':
 				ui.loginButton.classList.add('loading');
 				break;
-			case 'login-response':
-				ui.loginButton.classList.remove('loading');
-				break;
 			case 'logged-in':
 				ui.loginForm.style.display="none";
 				ui.scanButton.style.display="inline-flex";
@@ -47,7 +44,7 @@
 			case 'fetch-failed':
 				ui.errorBox.style.display="block";
 				ui.errorMessage.textContent = errorMsg;
-				//ui.loginButton.classList.remove('loading');
+				ui.loginButton.classList.remove('loading');
 				break;
 			default:
 				return false;
@@ -82,7 +79,7 @@
 	}
 	
 	const fetchError = (res) => {
-		if(res.status === 401) { return handleUI('fetch-failed', 'Unauthorized or wrong username/password (401)');}
+		if(res.status === 401) { return handleUI('fetch-failed', 'Wrong username and password or Unauthorized (error: 401)');}
 		else if(res.status === 404) { const errorMsg = 'Not found / Wrong URL (404)'; }
 		else { const errorMsg = 'Login faied misc'}
 	};
@@ -92,7 +89,6 @@
 		
 		fetch(baseUrl + '/version', options)
 			.then(res => {
-				handleUI('login-response');
 				if (!res.ok) { fetchError(res); }
 				else { return res.json(); }
 			})
@@ -101,8 +97,7 @@
 					console.log('Login successful. API version: ' + res.version);
 					handleUI('logged-in');
 				}
-				else {
-					console.log('Login failed!!!');
+				else { console.log('Login failed.');
 				}
 			})
     		.catch(error => {return handleUI('fetch-failed', 'Could not connect to the server (err_name_not_resolved)');});
