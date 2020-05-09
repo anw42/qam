@@ -8,7 +8,8 @@
 		errorBox     : document.getElementById('error-box'),
 		errorMessage : document.getElementById('error-message'),
 		cameraFrame  : document.getElementById('camera-frame'),
-		welcome      : document.getElementById('welcome')
+		welcome      : document.getElementById('welcome'),
+		assetData    : document.getElementById('asset-data')
 	};	
 
 	ui.loginButton.addEventListener('click', e => loginClicked(e));
@@ -28,6 +29,17 @@
 				ui.logoutButton.style.display="inline-flex";
 				ui.cameraFrame.style.display="block";
 				ui.welcome.style.display="block";
+				break;
+			case 'start-camera':
+				ui.scanButton.style.display="none";
+				ui.welcome.style.display="none";
+				ui.stopButton.style.display="inline-flex";
+				ui.cameraFrame.style.display="block";
+				ui.errorBox.style.display="none";
+				ui.assetData.style.display="none";
+				break;
+			case 'if-more-cams':
+				ui.switchButton.style.display="inline-flex";
 				break;
 			default:
 				return false;
@@ -154,18 +166,11 @@
 	}
 	
 	function startCam() {
-
-		scanButton.style.display="none";
-		welcome.style.display="none";
-		stopButton.style.display="inline-flex";
-		cameraFrame.style.display="block";
-		errorBox.style.display="none";
-		document.getElementById('asset-data').style.display="none";
+		handleUI('start-camera');
 		
 		var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
 		scanner.addListener('scan', content => {
-			cameraFrame.style.display="none";
-			console.log(content);
+			ui.cameraFrame.style.display="none";
 			getAsset(content);
 			document.getElementById('loading-asset').style.display="block";
 		});
@@ -177,7 +182,7 @@
 				scanner.start(cameras[cameras.length-1]);
 			}
 			if (cameras.length > 1) {
-				switchButton.style.display="inline-flex";
+				handleUI('if-more-cams');
 			}
 			}).catch( e => {
 				console.error(e);
