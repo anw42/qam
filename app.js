@@ -42,7 +42,7 @@
 		e.preventDefault();
 		loginButton.classList.add('loading');
 		
-		fetch(baseUrl + '/version', getOptions)
+		fetch(baseUrl() + '/version', getOptions())
 			.then(res => {
 				loginButton.classList.remove('loading');
 			
