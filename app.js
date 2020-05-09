@@ -73,16 +73,16 @@
 					return res.json();
 				}
 				else if (res.status === 401) {
-					errorBox.style.display="block";
-					errorMessage.textContent = 'Invalid username or password. (401)';
+					ui.errorBox.style.display="block";
+					ui.errorMessage.textContent = 'Invalid username or password. (401)';
 				}
 				else if (res.status === 404) {
-					errorBox.style.display="block";
-					errorMessage.textContent = 'Could not connect to the TOPdesk server. (404)';
+					ui.errorBox.style.display="block";
+					ui.errorMessage.textContent = 'Could not connect to the TOPdesk server. (404)';
 				}
 				else {
-					errorBox.style.display="block";
-					errorMessage.textContent = 'Login failed.';
+					ui.errorBox.style.display="block";
+					ui.errorMessage.textContent = 'Login failed.';
 				}
 			})
 			.then(res => {
@@ -95,9 +95,9 @@
 				}
 			})
     			.catch(error => {
-				errorBox.style.display="block";
-				errorMessage.textContent = 'Could not connect to the TOPdesk server. (err_name_not_resolved)';
-				loginButton.classList.remove('loading');
+				ui.errorBox.style.display="block";
+				ui.errorMessage.textContent = 'Could not connect to the TOPdesk server. (err_name_not_resolved)';
+				ui.loginButton.classList.remove('loading');
 				console.log('Login failed.');
 			})
 	}
