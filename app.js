@@ -1,107 +1,105 @@
-	const ui = {
-		loginButton  : document.getElementById('login-submit'),
-		scanButton   : document.getElementById('scan'),
-		stopButton   : document.getElementById('stop'),
-		switchButton : document.getElementById('switch'),
-		logoutButton : document.getElementById('logout'),
-		loginForm    : document.getElementById('login-form'),
-		errorBox     : document.getElementById('error-box'),
-		errorMessage : document.getElementById('error-message'),
-		cameraFrame  : document.getElementById('camera-frame'),
-		welcome      : document.getElementById('welcome'),
-		assetData    : document.getElementById('asset-data')
-	};	
+const ui = {
+	loginButton  : document.getElementById('login-submit'),
+	scanButton   : document.getElementById('scan'),
+	stopButton   : document.getElementById('stop'),
+	switchButton : document.getElementById('switch'),
+	logoutButton : document.getElementById('logout'),
+	loginForm    : document.getElementById('login-form'),
+	errorBox     : document.getElementById('error-box'),
+	errorMessage : document.getElementById('error-message'),
+	cameraFrame  : document.getElementById('camera-frame'),
+	welcome      : document.getElementById('welcome'),
+	assetData    : document.getElementById('asset-data')
+};	
 
-	ui.loginButton.addEventListener('click', e => loginClicked(e));
-	ui.scanButton.addEventListener('click', () => {manageCam(true);});	
-	ui.stopButton.addEventListener('click', () => {manageCam(false);});
-	ui.switchButton.addEventListener('click', () => {manageCam(false);});
-	ui.logoutButton.addEventListener('click', () => {window.location.reload(false);});
-	
-	const handleUI = (state, errorMsg) => {
-		switch(state) {
-			case 'login-loading':
-				ui.loginButton.classList.add('loading');
-				break;
-			case 'logged-in':
-				ui.loginForm.style.display="none";
-				ui.scanButton.style.display="inline-flex";
-				ui.logoutButton.style.display="inline-flex";
-				ui.cameraFrame.style.display="block";
-				ui.welcome.style.display="block";
-				break;
-			case 'start-camera':
-				ui.scanButton.style.display="none";
-				ui.welcome.style.display="none";
-				ui.stopButton.style.display="inline-flex";
-				ui.cameraFrame.style.display="block";
-				ui.errorBox.style.display="none";
-				ui.assetData.style.display="none";
-				break;
-			case 'if-more-cams':
-				ui.switchButton.style.display="inline-flex";
-				break;
-			case 'fetch-failed':
-				ui.errorBox.style.display="block";
-				ui.errorMessage.textContent = errorMsg;
-				ui.loginButton.classList.remove('loading');
-				break;
-			default:
-				return false;
-		}
-	};
+ui.loginButton.addEventListener('click', e => loginClicked(e));
+ui.scanButton.addEventListener('click', () => {manageCam(true);});	
+ui.stopButton.addEventListener('click', () => {manageCam(false);});
+ui.switchButton.addEventListener('click', () => {manageCam(false);});
+ui.logoutButton.addEventListener('click', () => {window.location.reload(false);});
 
-	var selCam;
-
-	let baseUrl = '';
-	let options = {};
-	
-	const getLoginData = () => {
-		baseUrl = document.getElementById('url').value + '/tas/api';
-		
-		const username = document.getElementById('username').value;
-		const password = document.getElementById('password').value;
-		const auth = 'Basic ' + btoa(username + ':' + password);
-		
-		options.method = 'GET';
-		options.headers = {
-			'Content-Type': 'application/json',
-			'Authorization': auth
-		};
-		
-		return true;
-	};
-	
-	const loginClicked = (e) => {
-		e.preventDefault();
-		getLoginData();
-		tryLogin();
+const handleUI = (state, errorMsg) => {
+	switch(state) {
+		case 'login-loading':
+			ui.loginButton.classList.add('loading');
+			break;
+		case 'logged-in':
+			ui.loginForm.style.display="none";
+			ui.scanButton.style.display="inline-flex";
+			ui.logoutButton.style.display="inline-flex";
+			ui.cameraFrame.style.display="block";
+			ui.welcome.style.display="block";
+			break;
+		case 'start-camera':
+			ui.scanButton.style.display="none";
+			ui.welcome.style.display="none";
+			ui.stopButton.style.display="inline-flex";
+			ui.cameraFrame.style.display="block";
+			ui.errorBox.style.display="none";
+			ui.assetData.style.display="none";
+			break;
+		case 'if-more-cams':
+			ui.switchButton.style.display="inline-flex";
+			break;
+		case 'fetch-failed':
+			ui.errorBox.style.display="block";
+			ui.errorMessage.textContent = errorMsg;
+			ui.loginButton.classList.remove('loading');
+			break;
+		default:
+			return false;
 	}
-	
-	const fetchError = (res) => {
-		if(res.status === 401) { return handleUI('fetch-failed', 'Wrong username and password or Unauthorized (error: 401)');}
-		else if(res.status === 404) { const errorMsg = 'Not found / Wrong URL (404)'; }
-		else { const errorMsg = 'Login faied misc'}
+};
+
+var selCam;
+
+let baseUrl = '';
+let options = {};
+
+const getLoginData = () => {
+	baseUrl = document.getElementById('url').value + '/tas/api';
+	const username = document.getElementById('username').value;
+	const password = document.getElementById('password').value;
+	const auth = 'Basic ' + btoa(username + ':' + password);
+
+	options.method = 'GET';
+	options.headers = {
+		'Content-Type': 'application/json',
+		'Authorization': auth
 	};
-	
-	const tryLogin = () => {
-		handleUI('login-loading');
 		
-		fetch(baseUrl + '/version', options)
-			.then(res => {
-				if (!res.ok) { fetchError(res); }
-				else { return res.json(); }
-			})
-			.then(res => {
-				if (res) {
-					console.log('Login successful. API version: ' + res.version);
-					handleUI('logged-in');
-				}
-				else { console.log('Login failed.');
-				}
-			})
+	return true;
+};
+	
+const loginClicked = (e) => {
+	e.preventDefault();
+	getLoginData();
+	tryLogin();
+}
+
+const fetchError = (res) => {
+	if(res.status === 401) { return handleUI('fetch-failed', 'Wrong username and password or Unauthorized (error: 401)');}
+	else if(res.status === 404) { const errorMsg = 'Not found / Wrong URL (404)'; }
+	else { const errorMsg = 'Login faied misc'}
+};
+
+const tryLogin = () => {
+	handleUI('login-loading');
+
+	fetch(baseUrl + '/version', options)
+		.then(res => {
+			if (!res.ok) { fetchError(res); }
+			else { return res.json(); }
+		})
+		.then(res => {
+			if (res) {
+				console.log('Login successful. API version: ' + res.version);
+				handleUI('logged-in');
+			}
+			else { console.log('Login failed.');}
+		})
     		.catch(error => {return handleUI('fetch-failed', 'Could not connect to the server (err_name_not_resolved)');});
-	}
+}
 
 	const getAsset = (content) => {
 		stopCam(selCam);
