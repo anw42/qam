@@ -13,8 +13,8 @@ const ui = {
 };	
 
 ui.loginButton.addEventListener('click', e => loginClicked(e));
-ui.scanButton.addEventListener('click', () => {manageCam(true);});	
-ui.stopButton.addEventListener('click', () => {manageCam(false);});
+ui.scanButton.addEventListener('click', () => {startCam();});	
+ui.stopButton.addEventListener('click', () => {stopCam(startCam);});
 ui.switchButton.addEventListener('click', () => {manageCam(false);});
 ui.logoutButton.addEventListener('click', () => {window.location.reload(false);});
 
@@ -55,6 +55,7 @@ var selCam;
 
 let baseUrl = '';
 let options = {};
+let mirror = false;
 
 const getLoginData = () => {
 	baseUrl = document.getElementById('url').value + '/tas/api';
@@ -100,6 +101,54 @@ const tryLogin = () => {
 		})
     		.catch(error => {return handleUI('fetch-failed', 'Could not connect to the server (err_name_not_resolved)');});
 }
+	
+const startCam = () => {
+	handleUI('start-camera');
+
+	var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: mirror });
+	scanner.addListener('scan', content => {
+		ui.cameraFrame.style.display="none";
+		getAsset(content);
+		document.getElementById('loading-asset').style.display="block";
+	});
+
+	Instascan.Camera.getCameras()
+		.then( cameras => {	
+			if (cameras.length > 0) {
+				scanner.start(cameras[cameras.length-1]);
+			}
+			if (cameras.length > 1) {
+				handleUI('if-more-cams');
+			}
+		})
+		.catch( e => {
+				console.error(e);
+				ui.errorBox.style.display="block";
+				ui.errorMessage.textContent = 'Cannot access video stream. (Camera inaccessible)';
+				ui.stopButton.style.display="none";
+				ui.scanButton.style.display="inline-flex";
+			});
+
+	return scanner;
+}
+		
+function stopCam(scanner) {
+
+	ui.switchButton.style.display="none";
+	ui.stopButton.style.display="none";
+	ui.scanButton.style.display="inline-flex";
+	ui.welcome.style.display="block";
+
+	Instascan.Camera.getCameras()
+		.then(cameras => {scanner.stop(cameras[cameras.length-1])
+		.then(console.log('Camera stopped.'));
+		})
+		.catch(error => {
+			ui.errorBox.style.display="block";
+			ui.errorMessage.textContent = error;
+		})
+}
+
 
 	const getAsset = (content) => {
 		stopCam(selCam);
@@ -150,53 +199,6 @@ const tryLogin = () => {
 				document.getElementById('loading-asset').style.display="none";
 				console.log('Getting the asset info failed.');
 			})
-	}
-	
-	function startCam() {
-		handleUI('start-camera');
-		
-		var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
-		scanner.addListener('scan', content => {
-			ui.cameraFrame.style.display="none";
-			getAsset(content);
-			document.getElementById('loading-asset').style.display="block";
-		});
-			
-		Instascan.Camera.getCameras()
-		.then( cameras => {
-	
-			if (cameras.length > 0) {
-				scanner.start(cameras[cameras.length-1]);
-			}
-			if (cameras.length > 1) {
-				handleUI('if-more-cams');
-			}
-			}).catch( e => {
-				console.error(e);
-				errorBox.style.display="block";
-				errorMessage.textContent = 'Cannot access video stream. (Camera inaccessible)';
-				stopButton.style.display="none";
-				scanButton.style.display="inline-flex";
-			});
-
-		return scanner;
-	}
-		
-	function stopCam(scanner) {
-
-		switchButton.style.display="none";
-		stopButton.style.display="none";
-		scanButton.style.display="inline-flex";
-		welcome.style.display="block";
-
-		Instascan.Camera.getCameras()
-		.then(cameras => {scanner.stop(cameras[cameras.length-1])
-		.then(console.log('Camera stopped.'));
-		})
-		.catch(error => {
-			errorBox.style.display="block";
-			errorMessage.textContent = error;
-		})
 	}
 	
 	function manageCam(mode) {
