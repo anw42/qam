@@ -85,7 +85,7 @@
 		if (res) {
 			if(res.status === 401) { const errorMsg = 'Unauthorized or wrong username/password (401)'; }
 			else if(res.status === 404) { const errorMsg = 'Not found / Wrong URL (404)'; }
-			else { const errorMsg = 'Login faied - ' + res.status}
+			else { const errorMsg = 'Login faied misc'}
 		}
 		else {
 			const errorMsg = 'Could not connect to the server (err_name_not_resolved)'; 
@@ -111,7 +111,7 @@
 					console.log('Login failed!!!');
 				}
 			})
-    		.catch(error => fetchError)
+    		.catch(error => {fetchError();});
 	}
 
 	const getAsset = (content) => {
