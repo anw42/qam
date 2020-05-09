@@ -11,7 +11,7 @@
 		welcome      : document.getElementById('welcome')
 	};	
 
-	ui.loginButton.addEventListener('click', event => loginClicked(event));
+	ui.loginButton.addEventListener('click', e => loginClicked(e));
 	ui.scanButton.addEventListener('click', () => {manageCam(true);});	
 	ui.stopButton.addEventListener('click', () => {manageCam(false);});
 	ui.switchButton.addEventListener('click', () => {manageCam(false);});
@@ -55,8 +55,8 @@
 		return true;
 	};
 	
-	const loginClicked = (event) => {
-		event.preventDefault();
+	const loginClicked = (e) => {
+		e.preventDefault();
 		getLoginData();
 		tryLogin();
 	}
