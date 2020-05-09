@@ -13,8 +13,8 @@ const ui = {
 };	
 
 ui.loginButton.addEventListener('click', e => loginClicked(e));
-ui.scanButton.addEventListener('click', () => {startCam();});	
-ui.stopButton.addEventListener('click', () => {stopCam();});
+ui.scanButton.addEventListener('click', () => {manageCam(true);});	
+ui.stopButton.addEventListener('click', () => {manageCam(false);});
 ui.switchButton.addEventListener('click', () => {manageCam(false);});
 ui.logoutButton.addEventListener('click', () => {window.location.reload(false);});
 
@@ -102,7 +102,7 @@ const tryLogin = () => {
     		.catch(error => {return handleUI('fetch-failed', 'Could not connect to the server (err_name_not_resolved)');});
 }
 	
-const startCam = () => {
+function startCam() {
 	handleUI('start-camera');
 
 	var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: mirror });
@@ -132,7 +132,7 @@ const startCam = () => {
 	return scanner;
 }
 		
-function stopCam() {
+function stopCam(scanner) {
 
 	ui.switchButton.style.display="none";
 	ui.stopButton.style.display="none";
@@ -140,7 +140,7 @@ function stopCam() {
 	ui.welcome.style.display="block";
 
 	Instascan.Camera.getCameras()
-		.then(cameras => {startCam().stop(cameras[cameras.length-1])
+		.then(cameras => {scanner.stop(cameras[cameras.length-1])
 		.then(console.log('Camera stopped.'));
 		})
 		.catch(error => {
