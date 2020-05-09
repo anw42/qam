@@ -170,16 +170,8 @@ const getAsset = (content) => {
 					document.getElementById("asset-id").value = res.data.name;
 					document.getElementById("specification").value = res.data.specification;
 				}
-				else {
-					console.log('Getting the asset info failed.');
-				}
 			})
-    			.catch(error => {
-				ui.errorBox.style.display="block";
-				ui.errorMessage.textContent = 'Could not connect to the TOPdesk server.';
-				document.getElementById('loading-asset').style.display="none";
-				console.log('Getting the asset info failed.');
-			})
+    		.catch(error => {return handleUI('fetch-failed', 'Could not connect to the server (err_name_not_resolved)');});
 	}
 	
 	function manageCam(mode) {
