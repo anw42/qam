@@ -171,7 +171,7 @@ const getAsset = (content) => {
 					document.getElementById("specification").value = res.data.specification;
 				}
 			})
-    		.catch(error => {return handleUI('fetch-failed', 'Could not connect to the server (err_name_not_resolved)');});
+    			.catch(error => {return handleUI('fetch-failed', 'Could not connect to the server (err_name_not_resolved)');});
 	}
 	
 	function manageCam(mode) {
