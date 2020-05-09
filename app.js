@@ -107,8 +107,8 @@ function startCam() {
 
 	var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: mirror });
 	scanner.addListener('scan', content => {
-		//ui.cameraFrame.style.display="none";
-		//document.getElementById('loading-asset').style.display="block";
+		ui.cameraFrame.style.display="none";
+		document.getElementById('loading-asset').style.display="block";
 		getAsset(content);
 		
 	});
@@ -158,23 +158,9 @@ const getAsset = (content) => {
 	fetch(baseUrl + '/assetmgmt/assets/' + content, options)
 			.then(res => {
 				document.getElementById('loading-asset').style.display="none";
-			
-				if (res.status === 200) {
-					//console.log('success');
-					return res.json();
-				}
-				else if (res.status === 401) {
-					ui.errorBox.style.display="block";
-					ui.errorMessage.textContent = 'Unauthorized. (401)';
-				}
-				else if (res.status === 404) {
-					ui.errorBox.style.display="block";
-					ui.errorMessage.innerHTML = "The QR scan was successful, however the below data is not a valid asset unid:<br><br><br>" + content;
-				}
-				else {
-					ui.errorBox.style.display="block";
-					ui.errorMessage.textContent = 'Other error.';
-				}
+		
+				if (!res.ok) { fetchError(res); }
+				else { return res.json(); }
 			})
 			.then(res => {
 				if (res) {
