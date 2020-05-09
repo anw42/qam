@@ -20,17 +20,29 @@
 	var welcome = document.getElementById('welcome');
 	
 	var selCam;
-	var url;
-	var auth;
+
+	const baseUrl = () => document.getElementById('url').value + '/tas/api';
 	
-	const tryLogin = (url, auth) => {
-		fetch(url + '/version', {
+	const getOptions = () => {
+		const username = document.getElementById('username').value;
+		const password = document.getElementById('password').value;
+		const auth = 'Basic ' + btoa(username + ':' + password);
+		
+		const options = {
 			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': auth
-			}
-		})
+			headers: JSON.stringify({
+				['Content-Type']: 'application/json',
+				['Authorization']: auth
+			})
+		} 
+		return options;	
+	};
+	
+	const tryLogin = (baseUrl, getOptions) => {
+		event.preventDefault();
+		loginButton.classList.add('loading');
+		
+		fetch(baseUrl() + '/version', getOptions())
 			.then(res => {
 				loginButton.classList.remove('loading');
 			
@@ -67,17 +79,6 @@
 				console.log('Login failed.');
 			})
 	}
-    
-	const getCredentials = (event) => {
-		event.preventDefault();
-		url = document.getElementById('url').value + '/tas/api';
-		var username = document.getElementById('username').value;
-		var password = document.getElementById('password').value;
-		auth = 'Basic ' + btoa(username + ':' + password);
-		errorBox.style.display="none";
-		loginButton.classList.add('loading');
-		tryLogin(url, auth);
-	};
 
 	const loggedIn = () => {
 		document.getElementById('login-form').style.display="none";
