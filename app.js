@@ -23,6 +23,9 @@
 			case 'login-loading':
 				ui.loginButton.classList.add('loading');
 				break;
+			case 'login-response':
+				ui.loginButton.classList.remove('loading');
+				break;
 			case 'logged-in':
 				ui.loginForm.style.display="none";
 				ui.scanButton.style.display="inline-flex";
@@ -78,23 +81,13 @@
 		
 		fetch(baseUrl + '/version', options)
 			.then(res => {
-				ui.loginButton.classList.remove('loading');
+				handleUI('login-response');
 			
 				if (res.status === 200) {
-					//console.log('success');
 					return res.json();
 				}
-				else if (res.status === 401) {
-					ui.errorBox.style.display="block";
-					ui.errorMessage.textContent = 'Invalid username or password. (401)';
-				}
-				else if (res.status === 404) {
-					ui.errorBox.style.display="block";
-					ui.errorMessage.textContent = 'Could not connect to the TOPdesk server. (404)';
-				}
 				else {
-					ui.errorBox.style.display="block";
-					ui.errorMessage.textContent = 'Login failed.';
+					console.log(res);
 				}
 			})
 			.then(res => {
