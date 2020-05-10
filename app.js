@@ -41,6 +41,12 @@ const handleUI = (state, errorMsg) => {
 		case 'if-more-cams':
 			ui.switchButton.style.display="inline-flex";
 			break;
+		case 'stop-camera':
+			ui.switchButton.style.display="none";
+			ui.stopButton.style.display="none";
+			ui.scanButton.style.display="inline-flex";
+			ui.welcome.style.display="block";
+			break;
 		case 'fetch-failed':
 			ui.errorBox.style.display="block";
 			ui.errorMessage.textContent = errorMsg;
@@ -123,22 +129,18 @@ function startCam() {
 			}
 		})
 		.catch( e => {
-				console.error(e);
-				ui.errorBox.style.display="block";
-				ui.errorMessage.textContent = 'Cannot access video stream. (Camera inaccessible)';
-				ui.stopButton.style.display="none";
-				ui.scanButton.style.display="inline-flex";
-			});
+			console.error(e);
+			ui.errorBox.style.display="block";
+			ui.errorMessage.textContent = 'Cannot access video stream. (Camera inaccessible)';
+			ui.stopButton.style.display="none";
+			ui.scanButton.style.display="inline-flex";
+		});
 
 	return scanner;
 }
-		
-function stopCam(scanner) {
 
-	ui.switchButton.style.display="none";
-	ui.stopButton.style.display="none";
-	ui.scanButton.style.display="inline-flex";
-	ui.welcome.style.display="block";
+function stopCam(scanner) {
+	handleUI('stop-camera');
 
 	Instascan.Camera.getCameras()
 		.then(cameras => {scanner.stop(cameras[cameras.length-1])
@@ -149,7 +151,6 @@ function stopCam(scanner) {
 			ui.errorMessage.textContent = error;
 		})
 }
-
 
 const getAsset = (content) => {
 	stopCam(selCam);
@@ -171,16 +172,10 @@ const getAsset = (content) => {
 					document.getElementById("specification").value = res.data.specification;
 				}
 			})
-    			.catch(error => {return handleUI('fetch-failed', 'Could not connect to the server (err_name_not_resolved)');});
-	}
-	
-	function manageCam(mode) {
-	
-		if (mode) {
-			selCam = startCam();
-		}
-		else {
-			stopCam(selCam);
-		}
-	
-	}
+    		.catch(error => {return handleUI('fetch-failed', 'Could not connect to the server (err_name_not_resolved)');});
+}
+
+function manageCam(mode) {
+	if (mode) { selCam = startCam(); }
+	else { stopCam(selCam); }
+}
