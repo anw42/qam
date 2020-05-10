@@ -192,6 +192,12 @@ const getAssetAssignments = (content) => {
 					document.getElementById('asset-data').innerHTML = '<div class="ui large label"><i class="user icon"></i>' + res['persons'][0]['person']['name'] + '</div><br><br>';
 
 					/*
+					var newcontent = document.createElement("div");
+					newcontent.innerHTML = '<div class="ui large label"><i class="user icon"></i>' + 'Test Name' + '</div><br><br>'
+					document.getElementById("x").appendChild(newcontent);
+					*/
+					
+					/*
 					document.getElementById("asset-unid").value = res.data.unid;
 					document.getElementById("asset-id").value = res.data.name;
 					document.getElementById("specification").value = res.data.specification;*/
