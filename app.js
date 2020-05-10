@@ -192,6 +192,7 @@ const getAssetAssignments = (content) => {
 					
 					document.getElementById('asset-data').style.display="block";
 					document.getElementById('asset-data').innerHTML = res['persons'][0]['person']['name'];
+					console.log(res['persons'][0]['person']['name']);
 					/*
 					document.getElementById("asset-unid").value = res.data.unid;
 					document.getElementById("asset-id").value = res.data.name;
