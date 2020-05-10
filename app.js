@@ -115,7 +115,7 @@ function startCam() {
 	scanner.addListener('scan', content => {
 		ui.cameraFrame.style.display="none";
 		document.getElementById('loading-asset').style.display="block";
-		getAssetFields(content);
+		getAssetAssignments(content);
 		
 	});
 
@@ -170,6 +170,31 @@ const getAssetFields = (content) => {
 					document.getElementById("asset-unid").value = res.data.unid;
 					document.getElementById("asset-id").value = res.data.name;
 					document.getElementById("specification").value = res.data.specification;
+				}
+			})
+    		.catch(error => {return handleUI('fetch-failed', 'Could not connect to the server (err_name_not_resolved)');});
+}
+
+const getAssetAssignments = (content) => {
+	stopCam(selCam);
+	welcome.style.display="none";
+	
+	fetch(baseUrl + '/assetmgmt/assets/' + content + '/assignments', options)
+			.then(res => {
+				document.getElementById('loading-asset').style.display="none";
+		
+				if (!res.ok) { fetchError(res); }
+				else { return res.json(); }
+			})
+			.then(res => {
+				if (res) {
+					console.log(res);
+					JSON.stringify(res.person, null, 3);
+					/*
+					document.getElementById('asset-data').style.display="block";
+					document.getElementById("asset-unid").value = res.data.unid;
+					document.getElementById("asset-id").value = res.data.name;
+					document.getElementById("specification").value = res.data.specification;*/
 				}
 			})
     		.catch(error => {return handleUI('fetch-failed', 'Could not connect to the server (err_name_not_resolved)');});
