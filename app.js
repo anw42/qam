@@ -189,9 +189,10 @@ const getAssetAssignments = (content) => {
 			.then(res => {
 				if (res) {
 					console.log(res);
-					JSON.stringify(res.person, null, 3);
-					/*
+					
 					document.getElementById('asset-data').style.display="block";
+					document.getElementById('asset-data').innerHTML = JSON.stringify(res.person, null, 3);
+					/*
 					document.getElementById("asset-unid").value = res.data.unid;
 					document.getElementById("asset-id").value = res.data.name;
 					document.getElementById("specification").value = res.data.specification;*/
