@@ -115,7 +115,7 @@ function startCam() {
 	scanner.addListener('scan', content => {
 		ui.cameraFrame.style.display="none";
 		document.getElementById('loading-asset').style.display="block";
-		getAsset(content);
+		getAssetFields(content);
 		
 	});
 
@@ -152,7 +152,7 @@ function stopCam(scanner) {
 		})
 }
 
-const getAsset = (content) => {
+const getAssetFields = (content) => {
 	stopCam(selCam);
 	welcome.style.display="none";
 	
